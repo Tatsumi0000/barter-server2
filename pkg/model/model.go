@@ -25,6 +25,13 @@ type CommunityUser struct {
 	Name string
 }
 
+// ポイントをアップデートする
+type PointUpdate struct {
+	SendUserID    int
+	ReceiveUserID int
+	Point         int
+}
+
 // func main() {
 // 	db := db.GetDBConn()
 // 	// ユーザのテーブルを作成
@@ -35,3 +42,21 @@ type CommunityUser struct {
 // user_pass	VARCHAR(32)			ユーザPASS
 // user_name	VARCHAR(64)			ユーザ名
 // point	int			ポイント
+
+type PointHistory struct {
+	ID            int `gorm:"primary_key"`
+	SendUserID    int
+	ReceiveUserID int
+	SendPoint     int
+	Date          int `gorm:"type:datetime"`
+}
+
+func main() {
+  db.AutoMigrate(&model.User{})
+}
+
+// tb_point_historys	point_id	int	PRIMARY_KEY	AUTO_INCREMENT
+// 	send_user_id	int			送ったユーザのID
+// 	receive_user_id	int			受取ったユーザのID
+// 	send_point	int			送ったポイント
+// 	date	DATETIME			日付

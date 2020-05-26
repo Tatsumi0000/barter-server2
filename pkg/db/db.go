@@ -41,7 +41,7 @@ func GetDBConn() *gorm.DB {
 
 // ユーザを検索する
 func FindUser(db *gorm.DB, id int, pass string) model.User {
-  var user model.User
+	var user model.User
 	//  db.Where(&model.User{ID: id, Password: pass}).Find(&user)
 	db.Where("id = ? AND password = ?", id, pass).Find(&user)
 	fmt.Println(user)
@@ -49,21 +49,30 @@ func FindUser(db *gorm.DB, id int, pass string) model.User {
 }
 
 // テーブル内のユーザを全部取得
-func GetCommunityUser(db *gorm.DB) model.CommunityUser {
-	//  db.Where(&model.User{ID: id, Password: pass}).Find(&user)
-	// users = []model.CommunityUser{}
+func GetCommunityUser(db *gorm.DB) []model.CommunityUser {
+	var communityUsers []model.CommunityUser
 	// DB内からIDと名前を全て引っこ抜く。
-	db.Table("users").Select("id, name").Find(&communityUser)
-	fmt.Println(users)
-	return users
+	db.Table("users").Select("id, name").Find(&communityUsers)
+	fmt.Println(communityUsers)
+	return communityUsers
+}
+
+// ポイントを更新するやーつ
+func UpdatePoint(db *gorm.DB, pointUpdate model.PointUpdate) {
+	// 受け取った方のやつ UPDATE users SET point = point + 100 WHERE id = 1;
+  db.Table("users").Where("id = ?", pointUpdate.ReceiveUserID).Update("point", gorm.Expr("point + ?", pointUpdate.Point))
+  // 送った方のやつ UPDATE users SET point = point + 100 WHERE id = 1;
+  db.Table("users").Where("id = ?", pointUpdate.SendUserID).Update("point", gorm.Expr("point - ?", pointUpdate.Point))
 }
 
 func main() {
-	var communityUser []model.CommunityUser
+	// var communityUser []model.CommunityUser
+	var pointUpdate = model.PointUpdate{ReceiveUserID: 1, SendUserID: 2, Point: 200}
 	db := GetDBConn()
+	UpdatePoint(db, pointUpdate)
 	// GORMは、自動でFind()のやつからテーブルを参照するがTableで指定すればそっちを参照する
-	db.Table("users").Select("id, name").Find(&communityUser)
-	fmt.Println(communityUser)
+	// db.Table("users").Select("id, name").Find(&communityUser)
+	// fmt.Println(communityUser)
 	// テーブル作成
 	// db.AutoMigrate(&model.User{})
 }
