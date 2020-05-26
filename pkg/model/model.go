@@ -19,6 +19,12 @@ type UserAuth struct {
 	Password string
 }
 
+// ポイントをもらう側のユーザリストを管理する
+type CommunityUser struct {
+	ID   int
+	Name string
+}
+
 // func main() {
 // 	db := db.GetDBConn()
 // 	// ユーザのテーブルを作成

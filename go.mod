@@ -9,4 +9,5 @@ require (
 	github.com/gorilla/mux v1.7.4 // indirect
 	github.com/gorilla/schema v1.1.0
 	github.com/jinzhu/gorm v1.9.12
+	github.com/sqs/goreturns v0.0.0-20181028201513-538ac6014518
 )
