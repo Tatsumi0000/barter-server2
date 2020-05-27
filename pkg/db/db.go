@@ -1,6 +1,5 @@
-// package db
-
-package main
+// package main
+package db
 
 import (
 	"barter-server2/pkg/model"
@@ -66,10 +65,12 @@ func UpdatePoint(db *gorm.DB, pointUpdate model.PointUpdate) {
 }
 
 func main() {
+  db := GetDBConn()
+  db.AutoMigrate(&model.PointHistory{})
 	// var communityUser []model.CommunityUser
-	var pointUpdate = model.PointUpdate{ReceiveUserID: 1, SendUserID: 2, Point: 200}
-	db := GetDBConn()
-	UpdatePoint(db, pointUpdate)
+	// var pointUpdate = model.PointUpdate{ReceiveUserID: 1, SendUserID: 2, Point: 200}
+	// db := GetDBConn()
+	// UpdatePoint(db, pointUpdate)
 	// GORMは、自動でFind()のやつからテーブルを参照するがTableで指定すればそっちを参照する
 	// db.Table("users").Select("id, name").Find(&communityUser)
 	// fmt.Println(communityUser)

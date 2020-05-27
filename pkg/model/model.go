@@ -1,9 +1,6 @@
-// package main
 package model
 
-// import (
-// 	"barter-server2/pkg/db"
-// )
+import "time"
 
 // Gormは最初大文字じゃないとカラムを作ってくれない。
 // ユーザのデータを持つ構造体
@@ -48,14 +45,18 @@ type PointHistory struct {
 	SendUserID    int
 	ReceiveUserID int
 	SendPoint     int
-	Date          int `gorm:"type:datetime"`
+	Date          time.Time `gorm:"default:CURRENT_TIMESTAMP"`
 }
 
-func main() {
-  db.AutoMigrate(&model.User{})
+type UserInfo struct {
+	JWT   string // JWT
+	ID    int    // ID
+	Name  string // ユーザ名
+	Point int    // 所持ポイント
 }
 
 // tb_point_historys	point_id	int	PRIMARY_KEY	AUTO_INCREMENT
+//  id int PRIMARY_KEY AUTO_INCREMENT ポイントを送った番号
 // 	send_user_id	int			送ったユーザのID
 // 	receive_user_id	int			受取ったユーザのID
 // 	send_point	int			送ったポイント
