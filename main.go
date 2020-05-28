@@ -13,7 +13,7 @@ import (
 
 func main() {
 	// CORSの設定
-	allowedOrigins := handlers.AllowedOrigins([]string{"http://localhost:5000"})
+	// allowedOrigins := handlers.AllowedOrigins([]string{"http://localhost:5000"})
 	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "DELETE", "PUT"})
 	allowedHeaders := handlers.AllowedHeaders([]string{"Authorization"})
 	r := mux.NewRouter()
