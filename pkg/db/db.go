@@ -14,8 +14,9 @@ import (
 func Dbconnect() (database *gorm.DB, err error) {
 	DBMS := "mysql"
 	USER := "root"
+	PASS := "barterdb8"
 	DBNAME := "db_barter"
-	CONNECT := USER + ":" + "@" + "/" + DBNAME
+	CONNECT := USER + ":" + PASS + "@" + "/" + DBNAME
 	return gorm.Open(DBMS, CONNECT)
 }
 
@@ -23,8 +24,9 @@ func Dbconnect() (database *gorm.DB, err error) {
 func GetDBConfig() (string, string) {
 	DBMS := "mysql"
 	USER := "root"
+	PASS := "barterdb8"
 	DBNAME := "db_barter"
-	CONNECT := USER + ":" + "@" + "/" + DBNAME
+	CONNECT := USER + ":" + PASS + "@" + "/" + DBNAME
 	return DBMS, CONNECT
 }
 
@@ -60,19 +62,19 @@ func GetCommunityUser(db *gorm.DB) []model.CommunityUser {
 // ポイントを更新するやーつ
 func UpdatePoint(db *gorm.DB, pointUpdate model.PointUpdate) {
 	// 受け取った方のやつ UPDATE users SET point = point + 100 WHERE id = 1;
-  db.Table("users").Where("id = ?", pointUpdate.ReceiveUserID).Update("point", gorm.Expr("point + ?", pointUpdate.Point))
-  // 送った方のやつ UPDATE users SET point = point + 100 WHERE id = 1;
-  db.Table("users").Where("id = ?", pointUpdate.SendUserID).Update("point", gorm.Expr("point - ?", pointUpdate.Point))
+	db.Table("users").Where("id = ?", pointUpdate.ReceiveUserID).Update("point", gorm.Expr("point + ?", pointUpdate.Point))
+	// 送った方のやつ UPDATE users SET point = point + 100 WHERE id = 1;
+	db.Table("users").Where("id = ?", pointUpdate.SendUserID).Update("point", gorm.Expr("point - ?", pointUpdate.Point))
 }
 
 // func main() {
 // 	// var communityUser []model.CommunityUser
-// 	var pointUpdate = model.PointUpdate{ReceiveUserID: 1, SendUserID: 2, Point: 200}
+// 	// var pointUpdate = model.PointUpdate{ReceiveUserID: 1, SendUserID: 2, Point: 200}
 // 	db := GetDBConn()
-// 	UpdatePoint(db, pointUpdate)
+// 	// UpdatePoint(db, pointUpdate)
 // 	// GORMは、自動でFind()のやつからテーブルを参照するがTableで指定すればそっちを参照する
 // 	// db.Table("users").Select("id, name").Find(&communityUser)
 // 	// fmt.Println(communityUser)
 // 	// テーブル作成
-// 	// db.AutoMigrate(&model.User{})
+// 	db.AutoMigrate(&model.PointHistory{})
 // }
